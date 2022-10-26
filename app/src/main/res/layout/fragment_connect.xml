@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  tools:context=".fragment.connect.ConnectFragment">
+
+  <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/main_swipe"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/usb_devices_recycler_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+    </androidx.recyclerview.widget.RecyclerView>
+
+  </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+  <cn.ololee.usbserialassistant.view.ScrollFloatingActionButton
+    android:id="@+id/baud_settings_fab"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/ic_baud"
+    android:layout_gravity="center_vertical|right"
+    />
+
+  <TextView
+    android:id="@+id/not_found_devices_tip"
+    android:layout_gravity="center"
+    android:text="@string/not_found_devices_tip"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+</FrameLayout>

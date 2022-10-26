@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools">
+  <data>
+    <variable
+      name="manualMode"
+      type="boolean"
+      />
+    <import type="android.view.View" />
+  </data>
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.ManualControllerFragment">
+
+    <!--自动-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:visibility="@{manualMode?View.GONE:View.VISIBLE}"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:context=".fragment.ManualControllerFragment">
+
+
+      <Button
+        android:id="@+id/picture_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="70dp"
+        android:text="@string/picture_switch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+      <Button
+        android:id="@+id/start_pause_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:textColor="@color/green"
+        android:text="@string/start"
+        app:layout_constraintStart_toEndOf="@id/picture_switch"
+        app:layout_constraintTop_toTopOf="@id/picture_switch" />
+
+
+      <LinearLayout
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+          android:layout_width="70dp"
+          android:layout_height="wrap_content"
+          android:text="@string/lateral_deviation" />
+
+        <TextView
+          android:id="@+id/lateral_deviation_tv"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center" />
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/rtk_mode_parent"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+          android:layout_width="35dp"
+          android:layout_height="wrap_content"
+          android:text="@string/mode" />
+
+        <TextView
+          android:id="@+id/rtk_mode_tv"
+          android:text="4"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center" />
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/baseline_parent"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rtk_mode_parent">
+
+        <TextView
+          android:layout_width="75dp"
+          android:layout_height="wrap_content"
+          android:text="@string/baseline_angle" />
+
+        <TextView
+          android:id="@+id/baseline_angle_tv"
+          android:text="0.00"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center" />
+      </LinearLayout>
+
+
+      <LinearLayout
+        android:id="@+id/speed_parent"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/baseline_parent">
+
+        <TextView
+          android:layout_width="75dp"
+          android:layout_height="wrap_content"
+          android:text="@string/speed" />
+
+        <TextView
+          android:id="@+id/speed_tv"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center" />
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/location_parent"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/speed_parent">
+
+        <TextView
+          android:layout_width="75dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:text="@string/location" />
+
+        <TextView
+          android:id="@+id/location_tv"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center" />
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/amplitude_settings"
+        app:layout_constraintStart_toStartOf="@id/picture_switch"
+        app:layout_constraintTop_toBottomOf="@+id/picture_switch">
+
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+          <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="@string/vehicle_direction" />
+
+          <TextView
+            android:id="@+id/vehicle_direction_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+          <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="@string/course_deviation" />
+
+          <TextView
+            android:id="@+id/course_deviation_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+        </LinearLayout>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+          <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="@string/front_wheel_angle" />
+
+          <TextView
+            android:id="@+id/front_wheel_angle_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+          <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="@string/d_a_distance" />
+
+          <TextView
+            android:id="@+id/d_a_distance_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+          <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="@string/b_c_distance" />
+
+          <TextView
+            android:id="@+id/b_c_distance_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+
+        </LinearLayout>
+
+      </LinearLayout>
+
+      <Button
+        android:id="@+id/amplitude_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/amplitude_width_settings"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+      <Button
+        android:id="@+id/locate_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="@string/locate_mode_settings"
+        app:layout_constraintTop_toTopOf="@id/amplitude_settings"
+        app:layout_constraintStart_toEndOf="@id/amplitude_settings" />
+
+      <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+          android:id="@+id/btn_turn_left"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/turn_left" />
+
+        <Button
+          android:id="@+id/btn_turn_right"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/turn_right" />
+
+
+      </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--手动-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="@{manualMode?View.VISIBLE:View.GONE}"
+        tools:context=".activity.ManualControllerActivity"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="18dp">
+
+
+        <com.qmuiteam.qmui.widget.QMUIVerticalTextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="3dp"
+          android:text="@string/throttle"
+          app:layout_constraintEnd_toStartOf="@+id/throttle"
+          app:layout_constraintTop_toTopOf="@id/throttle" />
+
+        <cn.ololee.usbserialassistant.view.MoveBar
+          android:id="@+id/throttle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:barRadius="6dp"
+          app:defaultInitValue="1.0"
+          app:endColor="@color/blue"
+          app:isUpRight="true"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.049"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.795"
+          app:length="60dp"
+          app:startColor="@color/red"
+          app:useBGGradientColor="true" />
+
+
+        <LinearLayout
+          android:id="@+id/speedControllerParent"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.2"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.7">
+
+          <Button
+            android:id="@+id/btn_forward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_forward" />
+
+          <Button
+            android:id="@+id/btn_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_stop"
+            android:textColor="@color/red" />
+
+          <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_back" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+          android:id="@+id/handingBtnParent"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.2"
+          app:layout_constraintStart_toEndOf="@+id/speedControllerParent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.7">
+
+          <Button
+            android:id="@+id/btn_lift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_lift" />
+
+          <Button
+            android:id="@+id/btn_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_lower" />
+
+          <Button
+            android:id="@+id/btn_flip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_flip" />
+
+
+        </LinearLayout>
+
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="5dp"
+          android:text="@string/front_wheel_angle"
+          app:layout_constraintBottom_toTopOf="@id/lateral_move_bar"
+          app:layout_constraintStart_toStartOf="@id/lateral_move_bar" />
+
+        <cn.ololee.usbserialassistant.view.MoveBar
+          android:id="@+id/lateral_move_bar"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:isUpRight="false"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.921"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.7" />
+
+
+        <LinearLayout
+          android:id="@+id/rudder_parent"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="@+id/lateral_move_bar"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.088">
+
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rudder_amidships" />
+
+          <CheckBox
+            android:id="@+id/rudder_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+          android:id="@+id/lift_switch_parent"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:visibility="gone"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="@+id/lateral_move_bar"
+          app:layout_constraintTop_toBottomOf="@id/rudder_parent"
+          app:layout_constraintVertical_bias="0.01">
+
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lift_switch" />
+
+          <CheckBox
+            android:id="@+id/lift_switch_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+          android:id="@+id/throttle_lock_parent"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="@+id/lift_switch_parent"
+          app:layout_constraintTop_toBottomOf="@id/lift_switch_parent"
+          app:layout_constraintVertical_bias="0.01">
+
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/throttle_switch" />
+
+          <CheckBox
+            android:id="@+id/throttle_switch_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <Switch
+      android:id="@+id/auto_manual_switch"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="60dp"
+      android:layout_marginTop="20dp"
+      android:textOn="@string/remote_controller_simplify"
+      android:textOff="@string/auto_controller_simplify"
+      android:textSize="12sp"
+      android:textColor="@color/black"
+      android:showText="true"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

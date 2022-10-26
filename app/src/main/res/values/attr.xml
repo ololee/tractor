@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <declare-styleable name="DrawableTextView">
+    <attr name="drawable_src" format="reference" />
+    <attr name="drawable_height" format="dimension" />
+    <attr name="drawable_width" format="dimension" />
+    <attr name="drawable_location">
+      <enum name="left" value="1" />
+      <enum name="top" value="2" />
+      <enum name="right" value="3" />
+      <enum name="bottom" value="4" />
+    </attr>
+  </declare-styleable>
+
+  <declare-styleable name="ScrollFloatingActionButton">
+    <attr name="scrollEnable" format="boolean" />
+  </declare-styleable>
+
+  <!--自定义复选框-->
+  <declare-styleable name="CheckBox_Sample">
+    <attr name="size" format="dimension" />
+    <attr name="color_border" format="color" />
+    <attr name="color_background" format="color" />
+  </declare-styleable>
+
+  <!--开关-->
+  <declare-styleable name="CustomButtonView">
+    <attr name="CBCircularColor" format="color"/>
+    <attr name="CBRadius" format="dimension"/>
+    <attr name="CBChangeColor" format="color"/>
+    <attr name="CBOriginalColor" format="color"/>
+  </declare-styleable>
+
+  <!--自定义文字下划线-->
+  <declare-styleable name="UnderlineTextView">
+    <attr name="UTextWidth" format="dimension"/>
+    <attr name="UTextColor" format="color"/>
+    <attr name="UTextOriginalColor" format="color"/>
+    <attr name="UTextLineColor" format="color"/>
+  </declare-styleable>
+
+  <declare-styleable name="ControllerView">
+    <attr name="fingerColor" format="color" />
+    <attr name="borderColor" format="color" />
+    <attr name="fingerSize" format="dimension" />
+    <attr name="radius" format="dimension" />
+  </declare-styleable>
+
+  <declare-styleable name="MoveBar">
+    <attr name="isUpRight" format="boolean" />
+    <attr name="barRadius" format="dimension" />
+    <attr name="length" format="dimension" />
+    <attr name="moveBarCircleColor" format="color" />
+    <attr name="moveBarCirclePressedColor" format="color" />
+    <attr name="moveBarBGColor" format="color" />
+    <attr name="defaultInitValue" format="float"/>
+    <attr name="useBGGradientColor" format="boolean"/>
+    <attr name="startColor" format="color"/>
+    <attr name="endColor" format="color"/>
+
+  </declare-styleable>
+
+</resources>

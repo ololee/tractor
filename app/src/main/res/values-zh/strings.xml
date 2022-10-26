@@ -1,0 +1,70 @@
+<resources>
+  <string name="app_name">USB串口助手</string>
+  <string name="connect">连接</string>
+  <string name="connected">已连接</string>
+  <string name="connecting">连接中</string>
+  <string name="disconnecting">断开中</string>
+  <string name="disconnected">已断开</string>
+  <string name="device_not_connected">设备未连接</string>
+
+  <string name="baud_rate">波特率</string>
+  <string name="not_found_devices_tip">未找到Usb设备</string>
+  <!--拖拉机部分-->
+  <string name="auto_manual_mode_switch">自动/手动</string>
+  <string name="picture_switch">画面切换</string>
+  <string name="amplitude_width_settings">幅宽设置</string>
+  <string name="locate_mode_settings">打点</string>
+  <string name="amplitude_width_simplify_settings">幅宽</string>
+  <string name="amplitude_settings">幅度</string>
+  <string name="width_settins">宽度</string>
+  <string name="please_input_amplitude_info">请输入幅宽信息</string>
+
+  <string name="confirm">确认</string>
+  <string name="cancel">取消</string>
+
+  <string name="start">开始</string>
+  <string name="stop">停止</string>
+  <string name="save">保存</string>
+
+  <string name="lateral_deviation">横向偏差</string>
+  <string name="mode">模式</string>
+  <string name="baseline_angle">基准线角度</string>
+
+  <string name="vehicle_direction">车辆航向信息</string>
+  <string name="course_deviation">航向偏差</string>
+  <string name="front_wheel_angle">前轮转角</string>
+  <string name="d_a_distance">到DA距离</string>
+  <string name="b_c_distance">到BC距离</string>
+  <string name="turn_left">向左微调</string>
+  <string name="turn_right">向右微调</string>
+  <string name="speed">速度</string>
+  <string name="location">拖拉机位置</string>
+
+  <string name="btn_forward">前进</string>
+  <string name="btn_stop">停止</string>
+  <string name="btn_back">后退</string>
+
+  <string name="btn_lift">一键提升</string>
+  <string name="btn_lower">一键下降</string>
+  <string name="btn_flip">一键翻转</string>
+
+  <string name="controller">控制</string>
+  <string name="auto_controller">自动</string>
+  <string name="auto_controller_simplify">自</string>
+  <string name="remote_controller">手动</string>
+  <string name="remote_controller_simplify">手</string>
+  <string name="locate_controller">定点</string>
+
+  <string name="a_position">A点坐标</string>
+  <string name="b_position">B点坐标</string>
+  <string name="c_position">C点坐标</string>
+  <string name="d_position">D点坐标</string>
+
+  <string name="rudder_amidships">回中 </string>
+  <string name="lift_switch">悬挂行程锁</string>
+  <string name="throttle_switch">油门锁</string>
+  <string name="throttle">油门</string>
+  <string name="lift_throttle">悬挂升级行程</string>
+
+  <string name="forget_device">忘记设备?</string>
+</resources>
