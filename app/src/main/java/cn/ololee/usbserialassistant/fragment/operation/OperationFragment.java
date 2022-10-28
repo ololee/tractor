@@ -2,6 +2,7 @@ package cn.ololee.usbserialassistant.fragment.operation;
 
 import android.util.Log;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -42,7 +43,8 @@ public class OperationFragment extends Fragment
     return view;
   }
 
-  @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
   }
 
@@ -141,6 +143,8 @@ public class OperationFragment extends Fragment
 
   @Override public void onResume() {
     super.onResume();
+    MainActivity activity = (MainActivity) getActivity();
+    activity.setConnectStatusVisible();
   }
 
   @Override

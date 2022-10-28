@@ -103,7 +103,7 @@ public class MainActivity extends FragmentActivity {
       }
     });
     binding.connectStatusDtv.setOnLongClickListener(v -> {
-     // showForgetDialog();
+      // showForgetDialog();
       return true;
     });
   }
@@ -129,6 +129,7 @@ public class MainActivity extends FragmentActivity {
     FragmentTransaction transaction = fm.beginTransaction();
     Fragment connectFragment = ConnectFragment.newInstance();
     transaction.replace(R.id.fragment, connectFragment);
+    transaction.addToBackStack("connect");
     transaction.commit();
   }
 
@@ -147,14 +148,16 @@ public class MainActivity extends FragmentActivity {
     FragmentTransaction transaction = fm.beginTransaction();
     Fragment amplitudeSettingFragment = AmplitudeSettingFragment.newInstance();
     transaction.replace(R.id.fragment, amplitudeSettingFragment);
+    transaction.addToBackStack("amplitudeSetting");
     transaction.commit();
   }
 
-  public void gotoLocateFragment(){
+  public void gotoLocateFragment() {
     FragmentManager fm = getSupportFragmentManager();
     FragmentTransaction transaction = fm.beginTransaction();
     LocatedFragment locatedFragment = LocatedFragment.newInstance();
     transaction.replace(R.id.fragment, locatedFragment);
+    transaction.addToBackStack("locate");
     transaction.commit();
   }
 
@@ -177,12 +180,16 @@ public class MainActivity extends FragmentActivity {
   public void sendAmplitudeSettingData(float amplitude) {
     byte[] amplitudeSettingData = DataDealUtils.sendAmplitudeWidth(amplitude);
     getModel().send(amplitudeSettingData);
-    gotoOperationFragment();
+    binding.connectStatusDtv.setVisibility(View.VISIBLE);
+    onBackPressed();
+  }
+
+  public void setConnectStatusVisible(){
+    binding.connectStatusDtv.setVisibility(View.VISIBLE);
   }
 
   @Override protected void onDestroy() {
     super.onDestroy();
     unregisterReceiver(broadcastReceiver);
   }
-
 }

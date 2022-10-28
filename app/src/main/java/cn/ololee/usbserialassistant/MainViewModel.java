@@ -153,7 +153,7 @@ public class MainViewModel extends AndroidViewModel implements SerialInputOutput
       return;
     }
     ioManager = new SerialInputOutputManager(usbSerialPort, this);
-    ioManager.setReadBufferSize(38 * 8192);
+    ioManager.setReadBufferSize(1024);
     ioManager.start();
     setStatus(Constants.ConnectStatus.CONNECTED);
   }

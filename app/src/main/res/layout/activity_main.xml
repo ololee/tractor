@@ -26,8 +26,9 @@
       app:drawable_src="@drawable/connected"
       app:drawable_location="bottom"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toTopOf="parent"
+      android:layout_marginEnd="15dp"
       app:layout_constraintVertical_bias="0.022" />
 
 

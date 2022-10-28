@@ -70,7 +70,7 @@ public class OperationViewModel extends ViewModel{
      /**
       * 设置速度
       */
-     speedData.postValue(NumberFormatUtils.formatFloat(dataModel.getSpeed()));
+     speedData.postValue(NumberFormatUtils.formatSpeed(dataModel.getSpeed()));
    }catch (DataErrorException e){
      errorTips(e.getMessage());
      }

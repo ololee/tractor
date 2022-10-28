@@ -37,6 +37,7 @@ public class LocatedFragment extends Fragment implements View.OnClickListener {
     btnB.setOnClickListener(this);
     btnC.setOnClickListener(this);
     btnD.setOnClickListener(this);
+    binding.btnBack.setOnClickListener(this);
     init();
     return view;
   }
@@ -76,11 +77,14 @@ public class LocatedFragment extends Fragment implements View.OnClickListener {
       case R.id.btn_d:
         locateCmd = DataDealUtils.sendControlCodeFunc((byte) 0xdd);
         break;
+      case R.id.btn_back:
+        activity.onBackPressed();
+        return;
     }
     activity.getModel().send(locateCmd);
   }
 
   private String formatPoint(float x, float y) {
-    return String.format("(%f,%f)",NumberFormatUtils.formatFloat(x),NumberFormatUtils.formatFloat(y));
+    return String.format("(%s,%s)",NumberFormatUtils.formatFloat(x),NumberFormatUtils.formatFloat(y));
   }
 }
