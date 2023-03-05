@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import cn.ololee.usbserialassistant.R;
-import cn.ololee.usbserialassistant.bean.UsbDeviceItem;
+import cn.ololee.usbserialassistant.constants.bean.UsbDeviceItem;
 import cn.ololee.usbserialassistant.databinding.UsbDevicesItemBinding;
 import java.util.ArrayList;
 import java.util.List;

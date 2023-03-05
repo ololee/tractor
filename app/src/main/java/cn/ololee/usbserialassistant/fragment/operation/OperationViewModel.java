@@ -1,16 +1,27 @@
 package cn.ololee.usbserialassistant.fragment.operation;
 
-
+import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import cn.ololee.usbserialassistant.MainActivity;
 import cn.ololee.usbserialassistant.MainViewModel;
-import cn.ololee.usbserialassistant.bean.DataModel;
+import cn.ololee.usbserialassistant.constants.bean.DataModel;
+import cn.ololee.usbserialassistant.constants.Constants;
 import cn.ololee.usbserialassistant.exception.DataErrorException;
 import cn.ololee.usbserialassistant.util.DataDealUtils;
 import cn.ololee.usbserialassistant.util.NumberFormatUtils;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.model.LatLng;
 
-public class OperationViewModel extends ViewModel{
+public class OperationViewModel extends ViewModel {
   private MainActivity activity;
   private MutableLiveData<String> errorTipsMutableLiveData = new MutableLiveData<>();
 
@@ -29,6 +40,13 @@ public class OperationViewModel extends ViewModel{
   private MutableLiveData<Float> amplitudeData = new MutableLiveData<>();//幅宽数据
   private MutableLiveData<String> rtkModeData = new MutableLiveData<>();//RTK模式
   private MutableLiveData<String> rtkDirectionData = new MutableLiveData<>();//RTK方向
+  private MutableLiveData<LatLng> latLngMutableLiveData = new MutableLiveData<>();//拖拉机位置
+  private BaiduMap baiduMap = null;
+  private LocationClient locationClient = null;
+  private MyLocationListener myLocationListener = null;
+  private boolean isFirstLocate = true;
+  private double lastVichleLat = 0;
+  private double lastVichleLng = 0;
 
   public void init(MainActivity activity) {
     this.activity = activity;
@@ -44,44 +62,47 @@ public class OperationViewModel extends ViewModel{
   }
 
   public void receive(DataModel dataModel) {
-   try {
-     lateralDeviationData.postValue( NumberFormatUtils.formatFloat(dataModel.getLateralDeviation()));
-     courseDeviationData.postValue(
-         NumberFormatUtils.formatFloat(dataModel.getCourseDeviation()));
-     frontWheelAngleData.postValue(
-         NumberFormatUtils.formatFloat(dataModel.getFrontWheelAngle()));
-     rtkDirectionData.postValue(
-         NumberFormatUtils.formatFloat(dataModel.getRtkDirection()));
-     rtkModeData.postValue(dataModel.getRtkMode() + "");
-     baselineAngleData.postValue(
-         NumberFormatUtils.formatFloat(dataModel.getBaseLineAngle()));
+    try {
+      lateralDeviationData.postValue(
+          NumberFormatUtils.formatFloat(dataModel.getLateralDeviation()));
+      courseDeviationData.postValue(
+          NumberFormatUtils.formatFloat(dataModel.getCourseDeviation()));
+      frontWheelAngleData.postValue(
+          NumberFormatUtils.formatFloat(dataModel.getFrontWheelAngle()));
+      rtkDirectionData.postValue(
+          NumberFormatUtils.formatFloat(dataModel.getRtkDirection()));
+      rtkModeData.postValue(dataModel.getRtkMode() + "");
+      baselineAngleData.postValue(
+          NumberFormatUtils.formatFloat(dataModel.getBaseLineAngle()));
 
-     locationData.postValue(getLocation(dataModel));
+      locationData.postValue(getLocation(dataModel));
 
-     /**
-      * 设置DA距离
-      */
-     DADistanceData.postValue(NumberFormatUtils.formatFloat(dataModel.getToDADistance()));
-     /**
-      * 设置BC距离
-      */
-     BCDistanceData.postValue(NumberFormatUtils.formatFloat(dataModel.getToBCDistance()));
+      /**
+       * 设置DA距离
+       */
+      DADistanceData.postValue(NumberFormatUtils.formatFloat(dataModel.getToDADistance()));
+      /**
+       * 设置BC距离
+       */
+      BCDistanceData.postValue(NumberFormatUtils.formatFloat(dataModel.getToBCDistance()));
 
-     /**
-      * 设置速度
-      */
-     speedData.postValue(NumberFormatUtils.formatSpeed(dataModel.getSpeed()));
-   }catch (DataErrorException e){
-     errorTips(e.getMessage());
-     }
+      /**
+       * 设置速度
+       */
+      speedData.postValue(NumberFormatUtils.formatSpeed(dataModel.getSpeed()));
+    } catch (DataErrorException e) {
+      errorTips(e.getMessage());
+    }
   }
 
   private void errorTips(String str) {
     errorTipsMutableLiveData.postValue(str);
   }
 
-
-  private String getLocation(DataModel dataModel){
+  private String getLocation(DataModel dataModel) {
+    float vehicleX = dataModel.getVehicleX();
+    float vehicleY = dataModel.getVehicleY();
+    gotoLocation(vehicleX, vehicleY);
     return String.format("(%s,%s)",
         NumberFormatUtils.formatFloat(dataModel.getVehicleX()),
         NumberFormatUtils.formatFloat(dataModel.getVehicleY()));
@@ -90,7 +111,7 @@ public class OperationViewModel extends ViewModel{
   /**
    * 速度控制及 悬挂行程升降控制
    */
-  public void control(int code){
+  public void control(int code) {
     byte[] sendDataCode = DataDealUtils.sendControlCodeFunc(code);
     send(sendDataCode);
   }
@@ -114,7 +135,7 @@ public class OperationViewModel extends ViewModel{
     send(sendDataCode);
   }
 
-  private void send(byte[] data){
+  private void send(byte[] data) {
     activity.getModel().send(data);
   }
 
@@ -168,5 +189,80 @@ public class OperationViewModel extends ViewModel{
 
   public MutableLiveData<String> getRtkDirectionData() {
     return rtkDirectionData;
+  }
+
+  public MutableLiveData<LatLng> getLatLngMutableLiveData() {
+    return latLngMutableLiveData;
+  }
+
+  public BaiduMap getBaiduMap() {
+    return baiduMap;
+  }
+
+  public void initBaiduMap(MapView bdmapView) {
+    baiduMap = bdmapView.getMap();
+    //将百度map默认设为不可见
+    baiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+    //打开定位图层
+    baiduMap.setMyLocationEnabled(true);
+    //定位初始化
+    //设置隐私政策接口
+    locationClient = new LocationClient(activity);
+    myLocationListener = new MyLocationListener();
+    locationClient.registerLocationListener(myLocationListener);
+
+    LocationClientOption option = new LocationClientOption();
+    option.setScanSpan(1000 * 1000);
+    option.setIsNeedAddress(true);
+    option.setOpenGps(true);
+    option.setCoorType(Constants.BD_COOR_TYPE);
+    locationClient.setLocOption(option);
+    locationClient.start();
+  }
+
+  public void stopLocate() {
+    if (locationClient != null) {
+      locationClient.stop();
+    }
+    if (baiduMap != null) {
+      baiduMap.setMyLocationEnabled(false);
+    }
+  }
+
+  public class MyLocationListener implements BDLocationListener {
+    @Override
+    public void onReceiveLocation(BDLocation bdLocation) {
+      // map view 销毁后不在处理新接收的位置
+      if (bdLocation == null) {
+        return;
+      }
+      MyLocationData locData = new MyLocationData.Builder()
+          .accuracy(bdLocation.getRadius())
+          // 此处设置开发者获取到的方向信息，顺时针0-360
+          .direction(bdLocation.getDirection())
+          .latitude(bdLocation.getLatitude())
+          .longitude(bdLocation.getLongitude())
+          .build();
+      baiduMap.setMyLocationData(locData);
+
+      if (isFirstLocate) {
+        Log.e("ololeeTAG", "onReceiveLocation: " + bdLocation.getLatitude() + " " + bdLocation.getLongitude());
+        gotoLocation(bdLocation.getLatitude(), bdLocation.getLongitude());
+        isFirstLocate = false;
+      }
+    }
+  }
+
+  public void gotoLocation(double latitude, double longitude) {
+    if (lastVichleLat == latitude && lastVichleLng == longitude) {
+      return;
+    }
+    LatLng ll = new LatLng(latitude, longitude);
+    MapStatus.Builder builder = new MapStatus.Builder();
+    builder.target(ll).zoom(18.0f);
+    baiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+    lastVichleLat = latitude;
+    lastVichleLng = longitude;
+    latLngMutableLiveData.postValue(ll);
   }
 }

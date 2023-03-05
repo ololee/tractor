@@ -16,6 +16,20 @@ android {
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
 
+  signingConfigs {
+    // your debug keystore
+//    debug {
+//      storeFile file("debug.keystore")
+//    }
+
+    release {
+      keyAlias "baidumapsdk"
+      keyPassword "baidumapsdk"
+      storeFile file('release.keystore')
+      storePassword "baidumapsdk"
+    }
+  }
+
   buildTypes {
     release {
       minifyEnabled false
@@ -41,6 +55,10 @@ dependencies {
 
   implementation 'com.qmuiteam:qmui:2.0.1'
   implementation 'com.tencent:mmkv:1.2.14'
+  //百度地图
+  implementation 'com.baidu.lbsyun:BaiduMapSDK_Map:7.4.0'
+  implementation 'com.baidu.lbsyun:BaiduMapSDK_Util:7.4.0'
+  implementation 'com.baidu.lbsyun:BaiduMapSDK_Location:9.1.8'
   implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
   implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
   implementation 'androidx.appcompat:appcompat:1.5.1'

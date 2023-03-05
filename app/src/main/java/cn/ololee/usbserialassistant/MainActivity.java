@@ -1,19 +1,22 @@
 package cn.ololee.usbserialassistant;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.hardware.usb.UsbManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import cn.ololee.usbserialassistant.bean.ConnectBean;
 import cn.ololee.usbserialassistant.constants.Constants;
 import cn.ololee.usbserialassistant.databinding.ActivityMainBinding;
 import cn.ololee.usbserialassistant.fragment.amplitude.AmplitudeSettingFragment;
@@ -22,17 +25,27 @@ import cn.ololee.usbserialassistant.fragment.locate.LocatedFragment;
 import cn.ololee.usbserialassistant.fragment.operation.OperationFragment;
 import cn.ololee.usbserialassistant.fragment.operation.UsbPermission;
 import cn.ololee.usbserialassistant.util.DataDealUtils;
-import com.tencent.mmkv.MMKV;
+import java.util.ArrayList;
 
 public class MainActivity extends FragmentActivity {
   private ActivityMainBinding binding;
   private MainViewModel model;
   private BroadcastReceiver broadcastReceiver;
   public static final String INTENT_ACTION_GRANT_USB = BuildConfig.APPLICATION_ID + ".GRANT_USB";
+  private static final int PERMISSION_REQUEST_CODE = 0x01;
+  private boolean isPermissionRequested = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    // 申请动态权限
+    requestPermission();
+    binding = ActivityMainBinding.inflate(getLayoutInflater());
+    setContentView(binding.getRoot());
+    init();
+  }
+
+  private void init() {
     broadcastReceiver = new BroadcastReceiver() {
       @Override
       public void onReceive(Context context, Intent intent) {
@@ -48,12 +61,6 @@ public class MainActivity extends FragmentActivity {
       }
     };
     registerReceiver(broadcastReceiver, new IntentFilter(INTENT_ACTION_GRANT_USB));
-    binding = ActivityMainBinding.inflate(getLayoutInflater());
-    setContentView(binding.getRoot());
-    init();
-  }
-
-  private void init() {
     ViewModelProvider.Factory viewModelFactory =
         (ViewModelProvider.Factory) new MainViewModelFactory(getApplication());
     model = new ViewModelProvider(this, viewModelFactory).get(MainViewModel.class);
@@ -184,12 +191,49 @@ public class MainActivity extends FragmentActivity {
     onBackPressed();
   }
 
-  public void setConnectStatusVisible(){
+  public void setConnectStatusVisible() {
     binding.connectStatusDtv.setVisibility(View.VISIBLE);
   }
 
   @Override protected void onDestroy() {
     super.onDestroy();
     unregisterReceiver(broadcastReceiver);
+  }
+
+  /**
+   * Android6.0之后需要动态申请权限
+   */
+  private void requestPermission() {
+    if (Build.VERSION.SDK_INT >= 23 && !isPermissionRequested) {
+      isPermissionRequested = true;
+      ArrayList<String> permissionsList = new ArrayList<>();
+      String[] permissions = {
+          Manifest.permission.ACCESS_NETWORK_STATE,
+          Manifest.permission.INTERNET,
+          Manifest.permission.WRITE_EXTERNAL_STORAGE,
+          Manifest.permission.READ_EXTERNAL_STORAGE,
+          Manifest.permission.ACCESS_COARSE_LOCATION,
+          Manifest.permission.ACCESS_FINE_LOCATION,
+          Manifest.permission.ACCESS_WIFI_STATE,
+          Manifest.permission.ACCESS_NOTIFICATION_POLICY
+      };
+
+      for (String perm : permissions) {
+        if (PackageManager.PERMISSION_GRANTED != checkSelfPermission(perm)) {
+          permissionsList.add(perm);
+          // 进入到这里代表没有权限.
+        }
+      }
+
+      if (!permissionsList.isEmpty()) {
+        String[] strings = new String[permissionsList.size()];
+        requestPermissions(permissionsList.toArray(strings), PERMISSION_REQUEST_CODE);
+      }
+    }
+  }
+
+  @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+      @NonNull int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
   }
 }

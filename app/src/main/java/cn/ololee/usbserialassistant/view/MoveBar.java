@@ -202,8 +202,9 @@ public class MoveBar extends View {
     this.backToCenter = backToCenter;
     if (current != (radius + 0.5 * outlineLen)) {
       current = (float) (radius + 0.5 * outlineLen);
+      //current = (float)
       if(slideCallback!=null) {
-        slideCallback.slide(current);
+        slideCallback.slide(0);
       }
       invalidate();
     }

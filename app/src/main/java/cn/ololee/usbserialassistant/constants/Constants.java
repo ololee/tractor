@@ -37,4 +37,6 @@ public interface Constants {
    * 端口
    */
   String PORT = "port";
+
+  String BD_COOR_TYPE = "bd09ll";
 }

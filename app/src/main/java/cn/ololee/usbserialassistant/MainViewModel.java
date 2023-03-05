@@ -15,9 +15,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import cn.ololee.usbserialassistant.bean.ConnectBean;
-import cn.ololee.usbserialassistant.bean.CustomProber;
-import cn.ololee.usbserialassistant.bean.DataModel;
+import cn.ololee.usbserialassistant.constants.bean.ConnectBean;
+import cn.ololee.usbserialassistant.constants.bean.CustomProber;
+import cn.ololee.usbserialassistant.constants.bean.DataModel;
 import cn.ololee.usbserialassistant.constants.Constants;
 import cn.ololee.usbserialassistant.fragment.operation.UsbPermission;
 import cn.ololee.usbserialassistant.util.DataDealUtils;
@@ -27,8 +27,6 @@ import com.hoho.android.usbserial.driver.UsbSerialProber;
 import com.hoho.android.usbserial.util.SerialInputOutputManager;
 import com.tencent.mmkv.MMKV;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 import static cn.ololee.usbserialassistant.MainActivity.INTENT_ACTION_GRANT_USB;
 

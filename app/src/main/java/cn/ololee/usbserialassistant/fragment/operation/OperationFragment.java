@@ -14,6 +14,10 @@ import android.view.ViewGroup;
 import cn.ololee.usbserialassistant.MainActivity;
 import cn.ololee.usbserialassistant.R;
 import cn.ololee.usbserialassistant.databinding.FragmentOperationBinding;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.model.LatLng;
 
 public class OperationFragment extends Fragment
     implements View.OnClickListener {
@@ -24,6 +28,12 @@ public class OperationFragment extends Fragment
   //手动控制部分成员变量
   private float lastThrottleValue = 0.0f, lastLaterDirectionValue = 0.0f;
   private boolean isAutoMode = true;
+  private BitmapDescriptor mbitmap = BitmapDescriptorFactory.fromResource(R.drawable.icon_marka);
+
+  /**
+   * 上次偏转操作时间戳
+   */
+  private long lastOperatorTime = 0;
 
   public static OperationFragment newInstance() {
     OperationFragment operationFragment = new OperationFragment();
@@ -52,6 +62,10 @@ public class OperationFragment extends Fragment
     initView();
   }
 
+  private void initBaiduMap() {
+    mViewModel.initBaiduMap(binding.bdmapView);
+  }
+
   private void initView() {
     binding.btnTurnLeft.setOnClickListener(this);
     binding.btnTurnRight.setOnClickListener(this);
@@ -68,10 +82,14 @@ public class OperationFragment extends Fragment
      * 手动部分
      */
     binding.lateralMoveBar.setSlideCallback(value -> {
-      if (lastLaterDirectionValue != value) {
+      long deltaTime = System.currentTimeMillis() - lastOperatorTime;
+      if(lastLaterDirectionValue != value && deltaTime > 100){
+        sendDirectionCode(value);
+      }else if(deltaTime <= 100 && Math.abs(value - lastLaterDirectionValue) > 0.01f){
         sendDirectionCode(value);
       }
       lastLaterDirectionValue = value;
+      lastOperatorTime = System.currentTimeMillis();
     });
     binding.throttle.setSlideCallback(value -> {
       if (lastThrottleValue != value) {
@@ -139,6 +157,9 @@ public class OperationFragment extends Fragment
     //速度
     mViewModel.getSpeedData()
         .observe(getViewLifecycleOwner(), speedData -> binding.speedTv.setText(speedData));
+    mViewModel.getLatLngMutableLiveData().observe(getViewLifecycleOwner(),ll->{
+      addMarker(ll);
+    });
   }
 
   @Override public void onResume() {
@@ -153,6 +174,7 @@ public class OperationFragment extends Fragment
     mViewModel = new ViewModelProvider(this).get(OperationViewModel.class);
     mViewModel.init((MainActivity) getActivity());
     initEvent();
+    initBaiduMap();
   }
 
   @Override public void onClick(View v) {
@@ -224,5 +246,17 @@ public class OperationFragment extends Fragment
 
   public void sendThrottle(float x) {
     mViewModel.sendThrottle(x);
+  }
+
+  @Override public void onDestroy() {
+    super.onDestroy();
+    mViewModel.stopLocate();
+    binding.bdmapView.onDestroy();
+  }
+
+  public void addMarker(LatLng ll){
+    MarkerOptions ooA = new MarkerOptions().position(ll).icon(mbitmap);
+    mViewModel.getBaiduMap().clear();
+    mViewModel.getBaiduMap().addOverlay(ooA);
   }
 }

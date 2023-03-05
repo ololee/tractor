@@ -2,7 +2,6 @@ package cn.ololee.usbserialassistant.fragment.connect;
 
 import android.app.AlertDialog;
 import android.util.Log;
-import android.widget.Toast;
 import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -15,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import cn.ololee.usbserialassistant.MainActivity;
 import cn.ololee.usbserialassistant.R;
 import cn.ololee.usbserialassistant.adapter.UsbDevicesAdapter;
-import cn.ololee.usbserialassistant.bean.ConnectBean;
-import cn.ololee.usbserialassistant.bean.UsbDeviceItem;
+import cn.ololee.usbserialassistant.constants.bean.ConnectBean;
+import cn.ololee.usbserialassistant.constants.bean.UsbDeviceItem;
 import cn.ololee.usbserialassistant.databinding.FragmentConnectBinding;
 import java.util.Arrays;
 
