@@ -9,6 +9,7 @@ import cn.ololee.usbserialassistant.constants.bean.DataModel;
 import cn.ololee.usbserialassistant.constants.Constants;
 import cn.ololee.usbserialassistant.exception.DataErrorException;
 import cn.ololee.usbserialassistant.util.DataDealUtils;
+import cn.ololee.usbserialassistant.util.FunctionCodes;
 import cn.ololee.usbserialassistant.util.NumberFormatUtils;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -20,6 +21,9 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+
+import static cn.ololee.usbserialassistant.util.ConfigConstants.SHOW_MAP;
+import static cn.ololee.usbserialassistant.util.ConfigConstants.SHOW_TRACK_LOCATION;
 
 public class OperationViewModel extends ViewModel {
   private MainActivity activity;
@@ -41,6 +45,8 @@ public class OperationViewModel extends ViewModel {
   private MutableLiveData<String> rtkModeData = new MutableLiveData<>();//RTK模式
   private MutableLiveData<String> rtkDirectionData = new MutableLiveData<>();//RTK方向
   private MutableLiveData<LatLng> latLngMutableLiveData = new MutableLiveData<>();//拖拉机位置
+
+  private MutableLiveData<Integer> lineNoMutableLiveData = new MutableLiveData<>();//当前行号
   private BaiduMap baiduMap = null;
   private LocationClient locationClient = null;
   private MyLocationListener myLocationListener = null;
@@ -90,6 +96,11 @@ public class OperationViewModel extends ViewModel {
        * 设置速度
        */
       speedData.postValue(NumberFormatUtils.formatSpeed(dataModel.getSpeed()));
+
+      /**
+       * 设置行号
+       */
+      lineNoMutableLiveData.postValue(dataModel.getLineNo());
     } catch (DataErrorException e) {
       errorTips(e.getMessage());
     }
@@ -114,6 +125,23 @@ public class OperationViewModel extends ViewModel {
   public void control(int code) {
     byte[] sendDataCode = DataDealUtils.sendControlCodeFunc(code);
     send(sendDataCode);
+  }
+
+  /**
+   * 增加行号/减少行号
+   */
+  public void addOrSubtractRow(boolean add) {
+    int code = add ? FunctionCodes.LINE_INCREASE : FunctionCodes.LINE_DECREASE;
+    control(code);
+  }
+
+  /**
+   * 方向盘电机使能/失能
+   * @param enable
+   */
+  public void enableSteer(boolean enable) {
+    int code = enable ? FunctionCodes.STEER_ENABLE : FunctionCodes.STEER_DISABLE;
+    control(code);
   }
 
   public void sendDirectionCode(float dir) {
@@ -195,6 +223,10 @@ public class OperationViewModel extends ViewModel {
     return latLngMutableLiveData;
   }
 
+  public MutableLiveData<Integer> getLineNoMutableLiveData() {
+    return lineNoMutableLiveData;
+  }
+
   public BaiduMap getBaiduMap() {
     return baiduMap;
   }
@@ -202,9 +234,13 @@ public class OperationViewModel extends ViewModel {
   public void initBaiduMap(MapView bdmapView) {
     baiduMap = bdmapView.getMap();
     //将百度map默认设为不可见
-    baiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+    if(SHOW_MAP){
+      baiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+    }else{
+      baiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
+    }
     //打开定位图层
-    baiduMap.setMyLocationEnabled(true);
+    baiduMap.setMyLocationEnabled(SHOW_TRACK_LOCATION);
     //定位初始化
     //设置隐私政策接口
     locationClient = new LocationClient(activity);

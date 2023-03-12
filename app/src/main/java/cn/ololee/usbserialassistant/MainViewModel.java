@@ -29,6 +29,7 @@ import com.tencent.mmkv.MMKV;
 import java.io.IOException;
 
 import static cn.ololee.usbserialassistant.MainActivity.INTENT_ACTION_GRANT_USB;
+import static cn.ololee.usbserialassistant.util.ConfigConstants.C1_PACKAGE_LENGTH;
 
 public class MainViewModel extends AndroidViewModel implements SerialInputOutputManager.Listener {
   private MutableLiveData<Integer> connectedStatus = new MutableLiveData<>();
@@ -207,16 +208,16 @@ public class MainViewModel extends AndroidViewModel implements SerialInputOutput
 
   @Override
   public void onNewData(byte[] data) {
-    if (index < 38) {
-      System.arraycopy(data, 0, buffer, index, Math.min(data.length, 38 - index));
+    if (index <C1_PACKAGE_LENGTH) {
+      System.arraycopy(data, 0, buffer, index, Math.min(data.length, C1_PACKAGE_LENGTH - index));
       index += data.length;
     }
-    if (index == 38) {
+    if (index == C1_PACKAGE_LENGTH) {
       //Log.e("ololeeTAG", "onNewData: " + Arrays.toString(buffer));
       DataModel dataModel = DataDealUtils.formatData(buffer);
       dataModelMutableLiveData.postValue(dataModel);
     }
-    if (index >= 38) {
+    if (index >= C1_PACKAGE_LENGTH) {
       index = 0;
     }
   }

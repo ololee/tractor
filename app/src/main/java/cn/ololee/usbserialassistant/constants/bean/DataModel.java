@@ -59,6 +59,8 @@ public class DataModel {
   private float positionDX;
   private float positionDY;
 
+  private int lineNo;
+
 
 
   public DataModel() {
@@ -238,6 +240,15 @@ public class DataModel {
     this.positionDY = positionDY;
   }
 
+
+  public void setLineNo(int lineNo) {
+    this.lineNo = lineNo;
+  }
+
+  public int getLineNo() {
+    return lineNo;
+  }
+
   @Override public String toString() {
     return "DataModel{" +
         "lateralDeviation=" + lateralDeviation +
@@ -248,6 +259,18 @@ public class DataModel {
         ", vehicleY=" + vehicleY +
         ", rtkMode=" + rtkMode +
         ", baseLineAngle=" + baseLineAngle +
+        ", toDADistance=" + toDADistance +
+        ", toBCDistance=" + toBCDistance +
+        ", speed=" + speed +
+        ", positionAX=" + positionAX +
+        ", positionAY=" + positionAY +
+        ", positionBX=" + positionBX +
+        ", positionBY=" + positionBY +
+        ", positionCX=" + positionCX +
+        ", positionCY=" + positionCY +
+        ", positionDX=" + positionDX +
+        ", positionDY=" + positionDY +
+        ", lineNo=" + lineNo +
         '}';
   }
 }

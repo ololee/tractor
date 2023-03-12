@@ -90,6 +90,15 @@ public class DataDealUtils {
        * 速度
        */
       byte speedByte = data[34];
+      /**
+       * 行号
+       */
+      byte lineNumber = data[35];
+      if(lineNumber<0) {
+        dataModel.setLineNo(lineNumber + 256);
+      }else {
+        dataModel.setLineNo(lineNumber);
+      }
       if (speedByte < 0) {
         dataModel.setSpeed((speedByte + 256) * 0.1f);
       } else {
@@ -98,7 +107,7 @@ public class DataDealUtils {
       /**
        * rtk模式
        */
-      dataModel.setRtkMode(data[35]);
+      dataModel.setRtkMode(data[36]);
     } catch (Exception e) {
       e.printStackTrace();
       //throw new DataErrorException();

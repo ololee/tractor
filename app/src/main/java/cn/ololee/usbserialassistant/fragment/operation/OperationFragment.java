@@ -1,6 +1,7 @@
 package cn.ololee.usbserialassistant.fragment.operation;
 
 import android.util.Log;
+import android.widget.Toast;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import cn.ololee.usbserialassistant.MainActivity;
 import cn.ololee.usbserialassistant.R;
 import cn.ololee.usbserialassistant.databinding.FragmentOperationBinding;
+import cn.ololee.usbserialassistant.util.ConfigConstants;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MarkerOptions;
@@ -72,6 +74,11 @@ public class OperationFragment extends Fragment
     binding.startPauseBtn.setOnClickListener(this);
     binding.amplitudeSettings.setOnClickListener(this);
     binding.locateSetting.setOnClickListener(this);
+    binding.btnIncreaseLineNum.setOnClickListener(this);
+    binding.btnDecreaseLineNum.setOnClickListener(this);
+    binding.motorEnSwitch.setOnCheckedChangeListener((v,isChecked)->{
+      mViewModel.enableSteer(isChecked);
+    });
     binding.autoManualSwitch.setOnCheckedChangeListener(
         (buttonView, isChecked) -> {
           binding.setManualMode(isChecked);
@@ -158,8 +165,14 @@ public class OperationFragment extends Fragment
     mViewModel.getSpeedData()
         .observe(getViewLifecycleOwner(), speedData -> binding.speedTv.setText(speedData));
     mViewModel.getLatLngMutableLiveData().observe(getViewLifecycleOwner(),ll->{
-      addMarker(ll);
+      if(ConfigConstants.SHOW_TRACK_LOCATION){
+        addMarker(ll);
+      }
     });
+
+    //行号
+    mViewModel.getLineNoMutableLiveData()
+        .observe(getViewLifecycleOwner(), lineNumData -> binding.lineNumberTv.setText(lineNumData));
   }
 
   @Override public void onResume() {
@@ -226,6 +239,14 @@ public class OperationFragment extends Fragment
           activity.gotoLocateFragment();
         }
         break;
+      case R.id.btn_increase_line_num:
+        mViewModel.addOrSubtractRow(true);
+        break;
+      case R.id.btn_decrease_line_num:
+        mViewModel.addOrSubtractRow(false);
+        break;
+      default:
+        break;
     }
   }
 
@@ -239,6 +260,7 @@ public class OperationFragment extends Fragment
   public void control(int code) {
     mViewModel.control(code);
   }
+
 
   public void sendDirectionCode(float x) {
     mViewModel.sendDirectionCode(x);

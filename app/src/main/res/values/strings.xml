@@ -69,4 +69,9 @@
   <string name="lift_throttle">Lift Throttle</string>
 
   <string name="forget_device">Forget Devices?</string>
+  <string name="line_number">LineNo</string>
+  <string name="increase_line_no">IncLineNo</string>
+  <string name="decrease_line_no">DecLineNo</string>
+  <string name="motor_enable">On</string>
+  <string name="motor_disable">Off</string>
 </resources>

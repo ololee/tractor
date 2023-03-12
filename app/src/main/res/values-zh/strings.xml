@@ -67,4 +67,9 @@
   <string name="lift_throttle">悬挂升级行程</string>
 
   <string name="forget_device">忘记设备?</string>
+  <string name="line_number">行号</string>
+  <string name="increase_line_no">行号增加</string>
+  <string name="decrease_line_no">行号减少</string>
+  <string name="motor_enable">开</string>
+  <string name="motor_disable">关</string>
 </resources>
