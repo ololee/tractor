@@ -16,5 +16,6 @@ public class App extends Application {
     SDKInitializer.setCoordType(CoordType.BD09LL);
     CrashReport.initCrashReport(getApplicationContext(), "889afd63c6", true);
     INSTANCE = this;
+    Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
   }
 }
