@@ -203,7 +203,7 @@ public class MainViewModel extends AndroidViewModel implements SerialInputOutput
     connectedStatus.postValue(finalStatus);
   }
 
-  byte[] buffer = new byte[64];
+  byte[] buffer = new byte[1024];
   int index = 0;
 
   @Override
