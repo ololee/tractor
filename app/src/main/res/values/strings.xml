@@ -5,16 +5,11 @@
   <string name="connecting">Connecting</string>
   <string name="disconnecting">DisConnecting</string>
   <string name="disconnected">DisConnected</string>
-
   <string name="device_not_connected">Device not connected</string>
-
   <string name="confirm">Confirm</string>
   <string name="cancel">Cancel</string>
-
-
   <string name="not_found_devices_tip">Not found Usb device</string>
   <string name="baud_rate">Baud rate</string>
-  <!--拖拉机部分-->
   <string name="auto_manual_mode_switch">Auto/Manual</string>
   <string name="picture_switch">Pic Switch</string>
   <string name="amplitude_width_settings">Amplitude Setting</string>
@@ -23,15 +18,12 @@
   <string name="amplitude_settings">Amplitude</string>
   <string name="width_settins">Width</string>
   <string name="please_input_amplitude_info">Please input amplitude</string>
-
   <string name="start">Start</string>
   <string name="stop">Stop</string>
   <string name="save">Save</string>
-
   <string name="lateral_deviation">Lateral Deviation</string>
   <string name="mode">Mode</string>
   <string name="baseline_angle">BaseLine</string>
-
   <string name="vehicle_direction">Direction</string>
   <string name="course_deviation">Deviation</string>
   <string name="front_wheel_angle">Front Wheel</string>
@@ -41,33 +33,27 @@
   <string name="turn_right">Slide Right</string>
   <string name="speed">Speed</string>
   <string name="location">Location</string>
-
   <string name="btn_forward">Forward</string>
   <string name="btn_stop">Stop</string>
   <string name="btn_back">Back</string>
-
   <string name="btn_lift">Lift</string>
   <string name="btn_lower">Lower</string>
   <string name="btn_flip">Flip</string>
-
   <string name="controller">Control</string>
   <string name="auto_controller">Auto</string>
   <string name="auto_controller_simplify">A</string>
   <string name="remote_controller">Manual</string>
   <string name="remote_controller_simplify">M</string>
   <string name="locate_controller">Locate</string>
-
   <string name="a_position">Pos A</string>
   <string name="b_position">Pos B</string>
   <string name="c_position">Pos C</string>
   <string name="d_position">Pos D</string>
-
   <string name="rudder_amidships">Rudder</string>
   <string name="lift_switch">Lift Lock</string>
   <string name="throttle_switch">Throttle Lock</string>
   <string name="throttle">Throttle</string>
   <string name="lift_throttle">Lift Throttle</string>
-
   <string name="forget_device">Forget Devices?</string>
   <string name="line_number">LineNo</string>
   <string name="increase_line_no">IncLineNo</string>

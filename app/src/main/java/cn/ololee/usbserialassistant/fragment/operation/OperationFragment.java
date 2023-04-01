@@ -172,7 +172,7 @@ public class OperationFragment extends Fragment
 
     //行号
     mViewModel.getLineNoMutableLiveData()
-        .observe(getViewLifecycleOwner(), lineNumData -> binding.lineNumberTv.setText(lineNumData));
+        .observe(getViewLifecycleOwner(), lineNumData -> binding.lineNumberTv.setText(lineNumData.toString()));
   }
 
   @Override public void onResume() {
